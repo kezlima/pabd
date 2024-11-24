@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Animais cadastrados</h2>
+    <ul class="">
+        {% for cachorro in animal %}
+            <li>
+                id: {{ cachorro[0] }}, 
+                Nome: {{ cachorro[1] }}, 
+                Raça: {{cachorro[2]}}
+                <form action="/atualizar/{{ cachorro[0] }}" method="GET">
+                    <button type="submit">Atualizar</button>
+                </form>
+                <form action="/apagar/{{ cachorro[0] }}" method="POST">
+                    <button type="submit">Apagar</button>
+                </form>
+        
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

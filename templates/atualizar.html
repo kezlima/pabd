@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action='/atualizar/{{cachorro[0]}}' method="POST">
+        <label for="nome" >Nome:</label>
+        <input type="text" name="nome" value="{{cachorro[1]}}">
+        <label for="raca">Raca:</label>
+        <input type="text" name="raca" value="{{cachorro[2]}}">
+        <input type="submit">
+    </form>
+</body>
+</html>

@@ -16,7 +16,7 @@ def teste():
 def adicionar():
     cnx=connection.MySQLConnection(
         user='root',
-        password='labinfo',
+        password='mdl587905',
         host='127.0.0.1',
         database='petshop'
 
@@ -29,7 +29,7 @@ def adicionar():
     print(raca)
 
 
-    sql="INSERT INTO animal (nome, raca) VALUES (%s, %s)"
+    sql="INSERT INTO animal (nome, raca) VALUES ( %s, %s)"
     tupla=(nome,raca)
     cursor=cnx.cursor()
     cursor.execute(sql, tupla)
@@ -39,11 +39,11 @@ def adicionar():
     cnx.close()
     return 'sucesso'
 
-@app.route('/apagar')
+'''@app.route('/apagar')
 def apagar():
     cnx=connection.MySQLConnection(
         user='root',
-        password='labinfo',
+        password='mdl587905',
         host='127.0.0.1',
         database='petshop'
 
@@ -51,12 +51,118 @@ def apagar():
     sql="DELETE FROM animal where id=%s"
     tupla=(2,)
     cursor=cnx.cursor()
-    tupla(2,)
     cursor.execute(sql, tupla)
     cnx.commit()
 
 
     cnx.close()
     return 'sucesso'
+'''
+@app.route('/exibir', methods=['GET', 'POST'])
+def exibir():
+    cnx=connection.MySQLConnection(
+        user='root',
+        password='mdl587905',
+        host='127.0.0.1',
+        database='petshop'
+
+    )
+
+  
+    cursor=cnx.cursor()
+    
+    sql=("SELECT id, nome, raca FROM animal")
+
+    cursor.execute(sql)
+
+    mens= cursor.fetchall()
+
+    cursor.close()  
+    cnx.close()
+
+    return render_template("animais.html", animal=mens)
+    
+
+@app.route('/apagar/<int:id>', methods=['POST'])
+def apagar(id):
+    cnx=connection.MySQLConnection(
+        user='root',
+        password='mdl587905',
+        host='127.0.0.1',
+        database='petshop'
+
+    )
+
+  
+    cursor=cnx.cursor()
+    sql=("SELECT id, nome, raca FROM animal")
+    cursor.execute(sql)
+    mens= cursor.fetchall()
+
+    cursor.execute("DELETE FROM animal WHERE id = %s", (id,))
+    cnx.commit() 
+    print('apagou')  
+    
+
+    cursor.close()  
+    cnx.close()
+
+    return render_template("animais.html", animal=mens)
+    
+@app.route('/atualizar/<int:id>', methods=['POST'])
+def atualizar(id):
+    cnx=connection.MySQLConnection(
+        user='root',
+        password='mdl587905',
+        host='127.0.0.1',
+        database='petshop'
+
+    )
+    nome = request.form['nome']
+    raca = request.form['raca']
+  
+    cursor=cnx.cursor()
+    cursor.execute("""
+            UPDATE animal
+            SET nome = %s, raca = %s
+            WHERE id = %s
+        """, (nome, raca, id))
+    
+    cnx.commit()
+    print('atualizou')  
+    
+    
+    sql=("SELECT id, nome, raca FROM animal")
+    cursor.execute(sql)
+    mens= cursor.fetchall()
+    
+    cursor.close()  
+    cnx.close()
+
+    return render_template("animais.html", animal=mens)
+    
+@app.route('/atualizar/<int:id>', methods=['GET'])
+def exibir_formulario_atualizacao(id):
+    cnx = connection.MySQLConnection(
+        user='root',
+        password='mdl587905',
+        host='127.0.0.1',
+        database='petshop'
+    )
+    cursor = cnx.cursor()
+    
+    # Busca o produto pelo ID
+    cursor.execute("SELECT id, nome, raca FROM animal WHERE id = %s", (id,))
+    dados = cursor.fetchone()
+    
+    cursor.close()
+    cnx.close()
+    
+    # Renderiza a página de atualização com os dados do produto
+    return render_template('atualizar.html', cachorro=dados)
 
 
+    
+    
+
+    
