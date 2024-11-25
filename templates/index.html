@@ -6,11 +6,16 @@
     <title>Document</title>
 </head>
 <body>
-   <form action="/adicao" method="post">
+   <form action="/adicao" method="POST">
     <label for="nome">Nome:</label>
     <input type="text" name="nome">
-    <label for="raca">Raca:</label>
-    <input type="text" name="raca">
+    <label for="raca">Raça:</label>
+        <select name="raca" id="raca">
+            {% for raca in lQnt %}
+                    <option value="{{raca[2]}}">{{raca[2]}}</option>  
+            {% endfor %}
+        </select>
+    
     <input type="submit">
    </form>
 </body>

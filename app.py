@@ -162,7 +162,26 @@ def exibir_formulario_atualizacao(id):
     return render_template('atualizar.html', cachorro=dados)
 
 
-    
+@app.route('/adicao', methods=['GET', 'POST'])
+def quantidade():
+    cnx = connection.MySQLConnection(
+        user='root',
+        password='mdl587905',
+        host='127.0.0.1',
+        database='petshop'
+    )
+
+    cursorQ = cnx.cursor()
+    sqlQuantidade = 'SELECT raca FROM animal'
+
+    cursorQ.execute(sqlQuantidade)
+    resultadoQuantidade = cursorQ.fetchone()
+    print(resultadoQuantidade)
+
+    cursorQ.close()
+    cnx.close()
+
+    return render_template('index.html',lQnt = resultadoQuantidade)
     
 
     
